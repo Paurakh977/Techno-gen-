@@ -1,13 +1,61 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import React from "react";
 import { motion } from "framer-motion";
 import * as THREE from "three";
+import { 
+  Code, Brain, Cpu, Database, 
+  GraduationCap, Atom, Terminal, 
+  Globe, Cloud, Book
+} from "lucide-react";
+
+interface FloatingIcon {
+  icon: any;
+  scale: number;
+  delay: number;
+  side: 'left' | 'right';  // TypeScript type for side
+}
 
 export default function HeroSection() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const [dimensions, setDimensions] = useState({ width: 1000, height: 800 });
+  const [shouldAnimate, setShouldAnimate] = useState(false);
 
+  const floatingIcons: FloatingIcon[] = [
+    // Left side icons (with wider distribution)
+    { icon: Code, scale: 1.4, delay: 0, side: 'left' },
+    { icon: Brain, scale: 1.5, delay: 1, side: 'left' },
+    { icon: Cpu, scale: 1.3, delay: 2, side: 'left' },
+    { icon: Database, scale: 1.4, delay: 3, side: 'left' },
+    { icon: GraduationCap, scale: 1.6, delay: 4, side: 'left' },
+    // Right side icons (with wider distribution)
+    { icon: Atom, scale: 1.5, delay: 5, side: 'right' },
+    { icon: Terminal, scale: 1.4, delay: 6, side: 'right' },
+    { icon: Globe, scale: 1.5, delay: 7, side: 'right' },
+    { icon: Cloud, scale: 1.3, delay: 8, side: 'right' },
+    { icon: Book, scale: 1.4, delay: 9, side: 'right' }
+  ];
+
+  const getRandomPosition = (side: 'left' | 'right') => {
+    if (side === 'left') {
+      // Left side: 5% to 45% of screen width
+      return Math.random() * (dimensions.width * 0.4) + (dimensions.width * 0.05);
+    }
+    // Right side: 55% to 95% of screen width
+    return Math.random() * (dimensions.width * 0.4) + (dimensions.width * 0.55);
+  };
+
+  // Enable animations after mount
+  useEffect(() => {
+    setShouldAnimate(true);
+    setDimensions({
+      width: window.innerWidth,
+      height: window.innerHeight
+    });
+  }, []);
+
+  // Your existing THREE.js effect (unchanged)
   useEffect(() => {
     if (canvasRef.current) {
       const scene = new THREE.Scene();
@@ -61,7 +109,7 @@ export default function HeroSection() {
       let particleMaterial: THREE.PointsMaterial;
 
       const createParticles = (isDark: boolean) => {
-        const particleCount = isDark ? 10000 : 60000;
+        const particleCount = isDark ? 10000 : 100000;
         particleGeometry = new THREE.BufferGeometry();
         const positions = new Float32Array(particleCount * 3);
 
@@ -95,8 +143,8 @@ export default function HeroSection() {
       let animationState = "forming";
       let animationProgress = 0;
       const formingDuration = 600;
-      const explodingDuration = 2000;
-      const floatingDuration = 3000;
+      const explodingDuration = 1000;
+      const floatingDuration = 2000;
 
       const easeInOutCubic = (t: number) => {
         return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
@@ -193,7 +241,7 @@ export default function HeroSection() {
             const explodingProgress = easeInOutCubic(
               animationProgress / explodingDuration
             );
-            sphere.scale.setScalar(Math.max(0, 1 - explodingProgress * 8));
+            sphere.scale.setScalar(Math.max(0, 1 - explodingProgress * 12));
             particles.visible = true;
             const positions = particleGeometry.attributes.position
               .array as Float32Array;
@@ -334,12 +382,58 @@ export default function HeroSection() {
 
   return (
     <div className="relative h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-blue-50 to-purple-50 dark:from-gray-900 dark:to-blue-900">
+      {/* THREE.js Canvas */}
       <canvas ref={canvasRef} className="absolute inset-0 z-0" />
+
+      {/* Floating Icons */}
+      {shouldAnimate && floatingIcons.map((item, index) => (
+        <motion.div
+          key={index}
+          className="absolute pointer-events-none z-[1]"
+          initial={{ 
+            opacity: 0,
+            x: getRandomPosition(item.side),
+            y: Math.random() * dimensions.height * 0.6 + dimensions.height * 0.2 // Keep away from edges
+          }}
+          animate={{ 
+            opacity: [0.6, 0.9, 0.6],
+            x: [
+              getRandomPosition(item.side),
+              getRandomPosition(item.side),
+              getRandomPosition(item.side)
+            ],
+            y: [
+              Math.random() * dimensions.height * 0.6 + dimensions.height * 0.2,
+              Math.random() * dimensions.height * 0.6 + dimensions.height * 0.2,
+              Math.random() * dimensions.height * 0.6 + dimensions.height * 0.2
+            ],
+            scale: [item.scale, item.scale * 1.1, item.scale],
+            rotate: [0, 180, 360]
+          }}
+          transition={{
+            duration: 20,
+            delay: item.delay, // Reduced delay
+            repeat: Infinity,
+            ease: "easeInOut",
+            times: [0, 0.5, 1]
+          }}
+        >
+          <item.icon 
+            className="w-12 h-12 text-purple-600/60 hover:text-purple-600/70 
+              dark:text-purple-400/50 dark:hover:text-purple-400/60 
+              filter blur-[0.2px] hover:blur-none transition-all duration-300
+              drop-shadow-lg dark:drop-shadow-[0_0_12px_rgba(168,85,247,0.3)]" 
+            strokeWidth={1.2}
+          />
+        </motion.div>
+      ))}
+
+      {/* Main Content */}
       <div className="relative z-10 text-center">
         <motion.div
           className="flex flex-col items-center space-y-8"
           animate={{
-            y: [0, -15, 0],  // Floating up and down
+            y: [0, -15, 0],
           }}
           transition={{
             duration: 6,
