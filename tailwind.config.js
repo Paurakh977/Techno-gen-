@@ -13,6 +13,9 @@ module.exports = {
         'primary-light': '#A47FFF',
         secondary: '#3B82F6',
       },
+      fontFamily: {
+        poppins: ['var(--font-poppins)', 'sans-serif'],
+      },
     },
   },
   plugins: [],

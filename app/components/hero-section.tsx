@@ -336,22 +336,34 @@ export default function HeroSection() {
     <div className="relative h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-blue-50 to-purple-50 dark:from-gray-900 dark:to-blue-900">
       <canvas ref={canvasRef} className="absolute inset-0 z-0" />
       <div className="relative z-10 text-center">
-        <motion.h1
-          initial={{ opacity: 0, y: -50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1 }}
-          className="text-4xl md:text-6xl font-bold text-gray-900 dark:text-white mb-4 mix-blend-difference"
+        <motion.div
+          className="flex flex-col items-center space-y-8"
+          animate={{
+            y: [0, -15, 0],  // Floating up and down
+          }}
+          transition={{
+            duration: 6,
+            ease: "easeInOut",
+            repeat: Infinity,
+          }}
         >
-          Welcome to Technogen
-        </motion.h1>
-        <motion.p
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 0.5 }}
-          className="text-xl md:text-2xl text-gray-700 dark:text-gray-300 mix-blend-difference"
-        >
-          Innovating the future, one byte at a time
-        </motion.p>
+          <motion.h1
+            initial={{ opacity: 0, y: -50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1 }}
+            className="text-5xl md:text-7xl font-bold text-gray-900 dark:text-white tracking-tight leading-tight"
+          >
+            Welcome to Technogen
+          </motion.h1>
+          <motion.p
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, delay: 0.5 }}
+            className="text-xl md:text-3xl text-gray-700 dark:text-gray-300 font-light tracking-wide"
+          >
+            Innovating the future, one byte at a time
+          </motion.p>
+        </motion.div>
       </div>
     </div>
   );
