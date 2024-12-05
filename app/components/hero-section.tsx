@@ -42,8 +42,8 @@ export default function HeroSection() {
       const geometry = new THREE.SphereGeometry(1, 32, 32);
       const isDarkMode = document.documentElement.classList.contains("dark");
       const sphereMaterial = new THREE.MeshPhongMaterial({
-        color: isDarkMode ? 0xe5e7eb : 0x8352fd,
-        emissive: isDarkMode ? 0x4b5563 : 0x310a90,
+        color: isDarkMode ? 0xc4b5fd : 0x8b5cf6,
+        emissive: isDarkMode ? 0xa78bfa : 0x7c3aed,
         side: THREE.DoubleSide,
         flatShading: true,
       });
@@ -60,15 +60,15 @@ export default function HeroSection() {
       let particleGeometry: THREE.BufferGeometry;
       let particleMaterial: THREE.PointsMaterial;
 
-      const createParticles = () => {
-        const particleCount = 60000;
+      const createParticles = (isDark: boolean) => {
+        const particleCount = isDark ? 10000 : 60000;
         particleGeometry = new THREE.BufferGeometry();
         const positions = new Float32Array(particleCount * 3);
 
         for (let i = 0; i < particleCount * 3; i += 3) {
-          positions[i] = (Math.random() - 0.5) * 30;
-          positions[i + 1] = (Math.random() - 0.5) * 30;
-          positions[i + 2] = (Math.random() - 0.5) * 50;
+          positions[i] = (Math.random() - 0.5) * 35;
+          positions[i + 1] = (Math.random() - 0.5) * 35;
+          positions[i + 2] = (Math.random() - 0.5) * 55;
         }
 
         particleGeometry.setAttribute(
@@ -76,19 +76,21 @@ export default function HeroSection() {
           new THREE.BufferAttribute(positions, 3)
         );
         particleMaterial = new THREE.PointsMaterial({
-          size: 0.12,
+          size: isDark ? 0.06 : 0.12,
           map: spriteTexture,
           transparent: true,
           blending: THREE.AdditiveBlending,
-          opacity: 0.9,
+          opacity: isDark ? 0.7 : 0.9,
           depthWrite: false,
-          color: isDarkMode ? 0xffffff : 0x8352fd,
+          color: isDark ? 0xffffff : 0x8352fd,
         });
         particles = new THREE.Points(particleGeometry, particleMaterial);
         scene.add(particles);
       };
 
-      createParticles();
+      // Initial creation with current mode
+      const initialIsDark = document.documentElement.classList.contains("dark");
+      createParticles(initialIsDark);
 
       let animationState = "forming";
       let animationProgress = 0;
@@ -137,13 +139,17 @@ export default function HeroSection() {
               positions[i + 2] += (Math.random() - 0.5) * factor * 3;
             }
             particleGeometry.attributes.position.needsUpdate = true;
-            if (animationProgress >= explodingDuration * 0.4 && sphere.scale.x <= 0.1) {
+            if (
+              animationProgress >= explodingDuration * 0.4 &&
+              sphere.scale.x <= 0.1
+            ) {
               animationState = "floating";
               animationProgress = 0;
               particles.visible = false;
               const entranceType = Math.floor(Math.random() * 4);
-              let startX = 0, startY = 0;
-              switch(entranceType) {
+              let startX = 0,
+                startY = 0;
+              switch (entranceType) {
                 case 0: // Diagonal entrance from far top-right
                   startX = 25;
                   startY = 20;
@@ -166,8 +172,10 @@ export default function HeroSection() {
             }
             break;
           case "floating":
-            sphere.position.x += (Math.sin(time * 0.5) * 4 - sphere.position.x) * 0.02;
-            sphere.position.y += (Math.cos(time * 0.3) * 3 - sphere.position.y) * 0.02;
+            sphere.position.x +=
+              (Math.sin(time * 0.5) * 4 - sphere.position.x) * 0.02;
+            sphere.position.y +=
+              (Math.cos(time * 0.3) * 3 - sphere.position.y) * 0.02;
             sphere.rotation.x += 0.003;
             sphere.rotation.y += 0.003;
             if (animationProgress >= floatingDuration) {
@@ -193,14 +201,16 @@ export default function HeroSection() {
 
       window.addEventListener("resize", handleResize);
 
-      // Handle dark mode changes
+      // Modify the dark mode observer to recreate particles
       const observer = new MutationObserver((mutations) => {
         mutations.forEach((mutation) => {
           if (mutation.attributeName === "class") {
             const isDark = document.documentElement.classList.contains("dark");
-            sphereMaterial.color.setHex(isDark ? 0xe5e7eb : 0x8352fd);
-            sphereMaterial.emissive.setHex(isDark ? 0x4b5563 : 0x310a90);
-            particleMaterial.color.setHex(isDark ? 0xffffff : 0x8352fd);
+            sphereMaterial.color.setHex(isDark ? 0xc4b5fd : 0x8b5cf6);
+            sphereMaterial.emissive.setHex(isDark ? 0xa78bfa : 0x7c3aed);
+
+            scene.remove(particles);
+            createParticles(isDark);
           }
         });
       });
