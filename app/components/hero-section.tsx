@@ -102,6 +102,77 @@ export default function HeroSection() {
         return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
       };
 
+      let isDragging = false;
+      let previousMousePosition = { x: 0, y: 0 };
+      let sphereVelocity = { x: 0, y: 0 };
+      const dragDamping = 0.95; // Damping factor for smooth deceleration
+      const throwForceMultiplier = 0.5; // Adjust throw strength
+
+      // Create raycaster for mouse interaction
+      const raycaster = new THREE.Raycaster();
+      const mouse = new THREE.Vector2();
+
+      // Add mouse event handlers
+      const onMouseDown = (event: MouseEvent) => {
+        if (animationState !== "floating") return;
+
+        mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+        mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+
+        raycaster.setFromCamera(mouse, camera);
+        const intersects = raycaster.intersectObject(sphere);
+
+        if (intersects.length > 0) {
+          isDragging = true;
+          previousMousePosition = { x: event.clientX, y: event.clientY };
+        }
+      };
+
+      const onMouseMove = (event: MouseEvent) => {
+        if (!isDragging) return;
+
+        // Calculate mouse movement
+        const deltaX = event.clientX - previousMousePosition.x;
+        const deltaY = event.clientY - previousMousePosition.y;
+
+        // Update sphere velocity based on mouse movement
+        sphereVelocity.x = deltaX * 0.01;
+        sphereVelocity.y = -deltaY * 0.01;
+
+        // Update sphere position
+        const vector = new THREE.Vector3();
+        vector.set(
+          (event.clientX / window.innerWidth) * 2 - 1,
+          -(event.clientY / window.innerHeight) * 2 + 1,
+          0.5
+        );
+        vector.unproject(camera);
+        vector.sub(camera.position).normalize();
+        const distance = -camera.position.z / vector.z;
+        const pos = camera.position
+          .clone()
+          .add(vector.multiplyScalar(distance));
+        sphere.position.copy(pos);
+
+        previousMousePosition = { x: event.clientX, y: event.clientY };
+      };
+
+      const onMouseUp = (event: MouseEvent) => {
+        if (!isDragging) return;
+        isDragging = false;
+
+        // Calculate throw velocity
+        const deltaX = event.clientX - previousMousePosition.x;
+        const deltaY = event.clientY - previousMousePosition.y;
+        sphereVelocity.x = deltaX * throwForceMultiplier * 0.01;
+        sphereVelocity.y = -deltaY * throwForceMultiplier * 0.01;
+      };
+
+      // Add event listeners
+      window.addEventListener("mousedown", onMouseDown);
+      window.addEventListener("mousemove", onMouseMove);
+      window.addEventListener("mouseup", onMouseUp);
+
       const animate = () => {
         requestAnimationFrame(animate);
 
@@ -172,17 +243,48 @@ export default function HeroSection() {
             }
             break;
           case "floating":
-            sphere.position.x +=
-              (Math.sin(time * 0.5) * 4 - sphere.position.x) * 0.02;
-            sphere.position.y +=
-              (Math.cos(time * 0.3) * 3 - sphere.position.y) * 0.02;
+            if (!isDragging) {
+              if (sphereVelocity.x !== 0 || sphereVelocity.y !== 0) {
+                // Apply throw physics
+                sphere.position.x += sphereVelocity.x;
+                sphere.position.y += sphereVelocity.y;
+
+                // Apply damping
+                sphereVelocity.x *= dragDamping;
+                sphereVelocity.y *= dragDamping;
+
+                // Stop very small movements
+                if (Math.abs(sphereVelocity.x) < 0.001) sphereVelocity.x = 0;
+                if (Math.abs(sphereVelocity.y) < 0.001) sphereVelocity.y = 0;
+
+                // Add boundary checks
+                const bound = 8;
+                if (Math.abs(sphere.position.x) > bound) {
+                  sphere.position.x = Math.sign(sphere.position.x) * bound;
+                  sphereVelocity.x *= -0.8; // Bounce off edges
+                }
+                if (Math.abs(sphere.position.y) > bound) {
+                  sphere.position.y = Math.sign(sphere.position.y) * bound;
+                  sphereVelocity.y *= -0.8; // Bounce off edges
+                }
+              } else {
+                // Original floating behavior when not thrown
+                sphere.position.x +=
+                  (Math.sin(time * 0.5) * 4 - sphere.position.x) * 0.02;
+                sphere.position.y +=
+                  (Math.cos(time * 0.3) * 3 - sphere.position.y) * 0.02;
+              }
+            }
+
             sphere.rotation.x += 0.003;
             sphere.rotation.y += 0.003;
+
             if (animationProgress >= floatingDuration) {
               animationState = "forming";
               animationProgress = 0;
               sphere.scale.setScalar(0);
               sphere.position.set(0, 0, 0);
+              sphereVelocity = { x: 0, y: 0 };
             }
             break;
         }
@@ -222,6 +324,9 @@ export default function HeroSection() {
 
       return () => {
         window.removeEventListener("resize", handleResize);
+        window.removeEventListener("mousedown", onMouseDown);
+        window.removeEventListener("mousemove", onMouseMove);
+        window.removeEventListener("mouseup", onMouseUp);
         observer.disconnect();
       };
     }
