@@ -6,6 +6,7 @@
     "lint": "next lint"
   },
   "devDependencies": {
+    "@tailwindcss/typography": "^0.5.10",
     "@types/node": "22.10.1",
     "@types/react": "^18.3.13",
     "autoprefixer": "^10.4.20",
@@ -16,7 +17,9 @@
   "dependencies": {
     "framer-motion": "^11.13.1",
     "lucide-react": "^0.467.0",
-    "next": "^15.0.3",
+    "next": "14.2.20",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
     "three": "^0.171.0"
   }
 }
