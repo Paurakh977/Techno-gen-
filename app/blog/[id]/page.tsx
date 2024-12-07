@@ -5,7 +5,7 @@ import { blogPosts } from "../../data/blog-posts";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import Navbar from "../../components/navbar";
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 
@@ -112,13 +112,16 @@ export default function BlogPostPage() {
               transition={{ delay: 0.2 }}
               className="relative w-full h-[400px] mb-8 rounded-xl overflow-hidden group"
             >
-              <Image
-                src={post.coverImage}
-                alt={post.title}
-                fill
-                className="object-cover transition-transform duration-300 group-hover:scale-105"
-                priority
-              />
+              <Suspense fallback={<div className="animate-pulse bg-gray-200 w-full h-[400px]"></div>}>
+                <Image
+                  src={post.coverImage}
+                  alt={post.title}
+                  fill
+                  className="object-cover transition-transform duration-300 group-hover:scale-105"
+                  priority
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                />
+              </Suspense>
             </motion.div>
 
             <motion.div

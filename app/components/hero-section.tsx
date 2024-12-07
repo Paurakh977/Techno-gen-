@@ -149,8 +149,8 @@ export default function HeroSection() {
 
       let animationState = "forming";
       let animationProgress = 0;
-      const formingDuration = 600;
-      const explodingDuration = 1000;
+      const formingDuration = 300;
+      const explodingDuration = 500;
       const floatingDuration = 2000;
 
       const easeInOutCubic = (t: number) => {
@@ -248,15 +248,15 @@ export default function HeroSection() {
             const explodingProgress = easeInOutCubic(
               animationProgress / explodingDuration
             );
-            sphere.scale.setScalar(Math.max(0, 1 - explodingProgress * 12));
+            sphere.scale.setScalar(Math.max(0, 1 - explodingProgress * 24));
             particles.visible = true;
             const positions = particleGeometry.attributes.position
               .array as Float32Array;
             for (let i = 0; i < positions.length; i += 3) {
               const factor = explodingProgress;
-              positions[i] *= 1 + factor * 5;
-              positions[i + 1] *= 1 + factor * 5;
-              positions[i + 2] *= 1 + factor * 8;
+              positions[i] *= 1 + factor * 8;
+              positions[i + 1] *= 1 + factor * 8;
+              positions[i + 2] *= 1 + factor * 12;
               const angle =
                 factor * Math.PI * 3 + (i / positions.length) * Math.PI * 2;
               const radius = factor * 1.5;
@@ -266,7 +266,7 @@ export default function HeroSection() {
             }
             particleGeometry.attributes.position.needsUpdate = true;
             if (
-              animationProgress >= explodingDuration * 0.4 &&
+              animationProgress >= explodingDuration * 0.25 &&
               sphere.scale.x <= 0.1
             ) {
               animationState = "floating";
