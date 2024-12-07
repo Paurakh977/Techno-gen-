@@ -15,11 +15,6 @@ const nextConfig = {
     contentDispositionType: 'attachment',
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
   },
-  // Performance optimizations
-  experimental: {
-    optimizeCss: true,
-    scrollRestoration: true,
-  },
   // Enable React strict mode for better performance
   reactStrictMode: true,
   // Enable page optimization

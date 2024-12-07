@@ -1,3 +1,5 @@
+"use client";
+
 import React from 'react'
 import Layout from './components/layout'
 import HeroSection from './components/hero-section'

@@ -13,9 +13,13 @@ export default function Navbar({ isDarkMode, toggleDarkMode }: NavbarProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
 
-  const toggleMenu = () => setIsMenuOpen(!isMenuOpen)
-
   useEffect(() => {
+    // Check localStorage on mount
+    const darkMode = localStorage.getItem('darkMode') === 'true';
+    if (darkMode) {
+      document.documentElement.classList.add('dark');
+    }
+
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 10)
     }
@@ -23,6 +27,14 @@ export default function Navbar({ isDarkMode, toggleDarkMode }: NavbarProps) {
     window.addEventListener('scroll', handleScroll)
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
+
+  const handleDarkModeToggle = () => {
+    const newDarkMode = !isDarkMode;
+    localStorage.setItem('darkMode', newDarkMode.toString());
+    toggleDarkMode();
+  }
+
+  const toggleMenu = () => setIsMenuOpen(!isMenuOpen)
 
   return (
     <nav className={`fixed w-full z-50 transition-all duration-300 ${isScrolled ? 'bg-white/80 dark:bg-gray-800/80 backdrop-blur-md shadow-md' : 'bg-transparent'}`}>
@@ -43,7 +55,7 @@ export default function Navbar({ isDarkMode, toggleDarkMode }: NavbarProps) {
           </div>
           <div className="flex items-center space-x-4">
             <motion.button
-              onClick={toggleDarkMode}
+              onClick={handleDarkModeToggle}
               whileTap={{ scale: 0.95 }}
               className="p-2 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white transition-colors duration-200"
               aria-label={isDarkMode ? "Switch to light mode" : "Switch to dark mode"}
