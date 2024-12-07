@@ -9,6 +9,12 @@ interface NavbarProps {
   toggleDarkMode: () => void;
 }
 
+const spring = {
+  type: "spring",
+  stiffness: 700,
+  damping: 30
+};
+
 export default function Navbar({ isDarkMode, toggleDarkMode }: NavbarProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
@@ -54,16 +60,34 @@ export default function Navbar({ isDarkMode, toggleDarkMode }: NavbarProps) {
             </div>
           </div>
           <div className="flex items-center space-x-4">
-            <motion.button
+            <div 
+              className={`flex items-center justify-start w-[70px] h-[34px] rounded-full p-[3px] cursor-pointer ${
+                isDarkMode ? 'bg-gray-700' : 'bg-gray-200'
+              }`}
               onClick={handleDarkModeToggle}
-              whileTap={{ scale: 0.95 }}
-              className="p-2 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white transition-colors duration-200"
-              aria-label={isDarkMode ? "Switch to light mode" : "Switch to dark mode"}
             >
-              {isDarkMode ? <Sun size={20} /> : <Moon size={20} />}
-            </motion.button>
-            <AuthButton>Login</AuthButton>
-            <AuthButton>Signup</AuthButton>
+              <motion.div
+                className="w-[28px] h-[28px] rounded-full bg-white flex items-center justify-center"
+                layout
+                transition={spring}
+                animate={{ x: isDarkMode ? 36 : 0 }}
+              >
+                {isDarkMode ? (
+                  <Moon className="h-4 w-4 text-gray-800" />
+                ) : (
+                  <Sun className="h-4 w-4 text-gray-800" />
+                )}
+              </motion.div>
+              <div className="absolute pointer-events-none w-[70px] h-[34px] rounded-full">
+                <div className={`absolute inset-0 flex items-center ${isDarkMode ? 'justify-start pl-2' : 'justify-end pr-2'}`}>
+                  {isDarkMode ? (
+                    <Sun className="h-4 w-4 text-gray-200" />
+                  ) : (
+                    <Moon className="h-4 w-4 text-gray-600" />
+                  )}
+                </div>
+              </div>
+            </div>
             <div className="md:hidden">
               <button
                 onClick={toggleMenu}
@@ -117,19 +141,6 @@ function MobileNavLink({ href, children, onClick }: { href: string; children: Re
     <Link href={href} onClick={onClick} className="text-gray-700 dark:text-gray-300 hover:text-blue-500 dark:hover:text-blue-400 block px-3 py-2 rounded-md text-base font-medium transition-colors duration-200">
       {children}
     </Link>
-  )
-}
-
-function AuthButton({ children }: { children: React.ReactNode }) {
-  return (
-    <motion.button
-      whileHover={{ scale: 1.05 }}
-      whileTap={{ scale: 0.95 }}
-      className="px-4 py-2 rounded-full bg-gradient-to-r from-primary to-secondary text-white font-medium hover:from-primary-dark hover:to-secondary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-primary transition-all duration-200 relative overflow-hidden group"
-    >
-      <span className="relative z-10">{children}</span>
-      <span className="absolute inset-0 bg-white opacity-0 group-hover:opacity-20 transform translate-x-full group-hover:translate-x-0 transition-all duration-300"></span>
-    </motion.button>
   )
 }
 
