@@ -116,7 +116,7 @@ export default function HeroSection() {
       let particleMaterial: THREE.PointsMaterial;
 
       const createParticles = (isDark: boolean) => {
-        const particleCount = isDark ? 100000 : 100000;
+        const particleCount = 100000;  // Keep same count for both modes
         particleGeometry = new THREE.BufferGeometry();
         const positions = new Float32Array(particleCount * 3);
 
@@ -358,16 +358,23 @@ export default function HeroSection() {
 
       window.addEventListener("resize", handleResize);
 
-      // Modify the dark mode observer to recreate particles
+      // Update the observer to only modify material properties
       const observer = new MutationObserver((mutations) => {
         mutations.forEach((mutation) => {
           if (mutation.attributeName === "class") {
             const isDark = document.documentElement.classList.contains("dark");
+            
+            // Update sphere material
             sphereMaterial.color.setHex(isDark ? 0x7c3aed : 0x7c3aed);
             sphereMaterial.emissive.setHex(isDark ? 0x7c3aed : 0x7c3aed);
 
-            scene.remove(particles);
-            createParticles(isDark);
+            // Update particle material properties without recreating
+            if (particleMaterial) {
+              particleMaterial.size = isDark ? 0.06 : 0.12;
+              particleMaterial.opacity = isDark ? 0.7 : 0.9;
+              particleMaterial.color.setHex(isDark ? 0x7c3aed : 0x7c3aed);
+              particleMaterial.needsUpdate = true;
+            }
           }
         });
       });

@@ -112,7 +112,6 @@ export default function BlogPostPage() {
               transition={{ delay: 0.2 }}
               className="relative w-full h-[400px] mb-8 rounded-xl overflow-hidden group"
             >
-              <div className="absolute inset-0 bg-gradient-to-br from-purple-600/20 to-blue-600/20 group-hover:opacity-90 transition-opacity z-10" />
               <Image
                 src={post.coverImage}
                 alt={post.title}
