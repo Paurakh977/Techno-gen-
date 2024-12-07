@@ -4,17 +4,24 @@ import { useEffect, useRef, useState } from "react";
 import React from "react";
 import { motion } from "framer-motion";
 import * as THREE from "three";
-import { 
-  Code, Brain, Cpu, Database, 
-  GraduationCap, Atom, Terminal, 
-  Globe, Cloud, Book
+import {
+  Code,
+  Brain,
+  Cpu,
+  Database,
+  GraduationCap,
+  Atom,
+  Terminal,
+  Globe,
+  Cloud,
+  Book,
 } from "lucide-react";
 
 interface FloatingIcon {
   icon: any;
   scale: number;
   delay: number;
-  side: 'left' | 'right';  // TypeScript type for side
+  side: "left" | "right"; // TypeScript type for side
 }
 
 export default function HeroSection() {
@@ -24,26 +31,26 @@ export default function HeroSection() {
 
   const floatingIcons: FloatingIcon[] = [
     // Left side icons (with wider distribution)
-    { icon: Code, scale: 1.4, delay: 0, side: 'left' },
-    { icon: Brain, scale: 1.5, delay: 1, side: 'left' },
-    { icon: Cpu, scale: 1.3, delay: 2, side: 'left' },
-    { icon: Database, scale: 1.4, delay: 3, side: 'left' },
-    { icon: GraduationCap, scale: 1.6, delay: 4, side: 'left' },
+    { icon: Code, scale: 1.4, delay: 0, side: "left" },
+    { icon: Brain, scale: 1.5, delay: 1, side: "left" },
+    { icon: Cpu, scale: 1.3, delay: 2, side: "left" },
+    { icon: Database, scale: 1.4, delay: 3, side: "left" },
+    { icon: GraduationCap, scale: 1.6, delay: 4, side: "left" },
     // Right side icons (with wider distribution)
-    { icon: Atom, scale: 1.5, delay: 5, side: 'right' },
-    { icon: Terminal, scale: 1.4, delay: 6, side: 'right' },
-    { icon: Globe, scale: 1.5, delay: 7, side: 'right' },
-    { icon: Cloud, scale: 1.3, delay: 8, side: 'right' },
-    { icon: Book, scale: 1.4, delay: 9, side: 'right' }
+    { icon: Atom, scale: 1.5, delay: 5, side: "right" },
+    { icon: Terminal, scale: 1.4, delay: 6, side: "right" },
+    { icon: Globe, scale: 1.5, delay: 7, side: "right" },
+    { icon: Cloud, scale: 1.3, delay: 8, side: "right" },
+    { icon: Book, scale: 1.4, delay: 9, side: "right" },
   ];
 
-  const getRandomPosition = (side: 'left' | 'right') => {
-    if (side === 'left') {
+  const getRandomPosition = (side: "left" | "right") => {
+    if (side === "left") {
       // Left side: 5% to 45% of screen width
-      return Math.random() * (dimensions.width * 0.4) + (dimensions.width * 0.05);
+      return Math.random() * (dimensions.width * 0.4) + dimensions.width * 0.05;
     }
     // Right side: 55% to 95% of screen width
-    return Math.random() * (dimensions.width * 0.4) + (dimensions.width * 0.55);
+    return Math.random() * (dimensions.width * 0.4) + dimensions.width * 0.55;
   };
 
   // Enable animations after mount
@@ -51,7 +58,7 @@ export default function HeroSection() {
     setShouldAnimate(true);
     setDimensions({
       width: window.innerWidth,
-      height: window.innerHeight
+      height: window.innerHeight,
     });
   }, []);
 
@@ -90,8 +97,8 @@ export default function HeroSection() {
       const geometry = new THREE.SphereGeometry(1, 32, 32);
       const isDarkMode = document.documentElement.classList.contains("dark");
       const sphereMaterial = new THREE.MeshPhongMaterial({
-        color: isDarkMode ? 0xc4b5fd : 0x8b5cf6,
-        emissive: isDarkMode ? 0xa78bfa : 0x7c3aed,
+        color: isDarkMode ? 0x7c3aed : 0x7c3aed,
+        emissive: isDarkMode ? 0x7c3aed : 0x7c3aed,
         side: THREE.DoubleSide,
         flatShading: true,
       });
@@ -109,7 +116,7 @@ export default function HeroSection() {
       let particleMaterial: THREE.PointsMaterial;
 
       const createParticles = (isDark: boolean) => {
-        const particleCount = isDark ? 10000 : 100000;
+        const particleCount = isDark ? 100000 : 100000;
         particleGeometry = new THREE.BufferGeometry();
         const positions = new Float32Array(particleCount * 3);
 
@@ -130,7 +137,7 @@ export default function HeroSection() {
           blending: THREE.AdditiveBlending,
           opacity: isDark ? 0.7 : 0.9,
           depthWrite: false,
-          color: isDark ? 0xffffff : 0x8352fd,
+          color: isDark ? 0x7c3aed : 0x7c3aed,
         });
         particles = new THREE.Points(particleGeometry, particleMaterial);
         scene.add(particles);
@@ -356,8 +363,8 @@ export default function HeroSection() {
         mutations.forEach((mutation) => {
           if (mutation.attributeName === "class") {
             const isDark = document.documentElement.classList.contains("dark");
-            sphereMaterial.color.setHex(isDark ? 0xc4b5fd : 0x8b5cf6);
-            sphereMaterial.emissive.setHex(isDark ? 0xa78bfa : 0x7c3aed);
+            sphereMaterial.color.setHex(isDark ? 0x7c3aed : 0x7c3aed);
+            sphereMaterial.emissive.setHex(isDark ? 0x7c3aed : 0x7c3aed);
 
             scene.remove(particles);
             createParticles(isDark);
@@ -386,47 +393,53 @@ export default function HeroSection() {
       <canvas ref={canvasRef} className="absolute inset-0 z-0" />
 
       {/* Floating Icons */}
-      {shouldAnimate && floatingIcons.map((item, index) => (
-        <motion.div
-          key={index}
-          className="absolute pointer-events-none z-[1]"
-          initial={{ 
-            opacity: 0,
-            x: getRandomPosition(item.side),
-            y: Math.random() * dimensions.height * 0.6 + dimensions.height * 0.2 // Keep away from edges
-          }}
-          animate={{ 
-            opacity: [0.6, 0.9, 0.6],
-            x: [
-              getRandomPosition(item.side),
-              getRandomPosition(item.side),
-              getRandomPosition(item.side)
-            ],
-            y: [
-              Math.random() * dimensions.height * 0.6 + dimensions.height * 0.2,
-              Math.random() * dimensions.height * 0.6 + dimensions.height * 0.2,
-              Math.random() * dimensions.height * 0.6 + dimensions.height * 0.2
-            ],
-            scale: [item.scale, item.scale * 1.1, item.scale],
-            rotate: [0, 180, 360]
-          }}
-          transition={{
-            duration: 20,
-            delay: item.delay, // Reduced delay
-            repeat: Infinity,
-            ease: "easeInOut",
-            times: [0, 0.5, 1]
-          }}
-        >
-          <item.icon 
-            className="w-12 h-12 text-purple-600/60 hover:text-purple-600/70 
+      {shouldAnimate &&
+        floatingIcons.map((item, index) => (
+          <motion.div
+            key={index}
+            className="absolute pointer-events-none z-[1]"
+            initial={{
+              opacity: 0,
+              x: getRandomPosition(item.side),
+              y:
+                Math.random() * dimensions.height * 0.6 +
+                dimensions.height * 0.2, // Keep away from edges
+            }}
+            animate={{
+              opacity: [0.6, 0.9, 0.6],
+              x: [
+                getRandomPosition(item.side),
+                getRandomPosition(item.side),
+                getRandomPosition(item.side),
+              ],
+              y: [
+                Math.random() * dimensions.height * 0.6 +
+                  dimensions.height * 0.2,
+                Math.random() * dimensions.height * 0.6 +
+                  dimensions.height * 0.2,
+                Math.random() * dimensions.height * 0.6 +
+                  dimensions.height * 0.2,
+              ],
+              scale: [item.scale, item.scale * 1.1, item.scale],
+              rotate: [0, 180, 360],
+            }}
+            transition={{
+              duration: 20,
+              delay: item.delay, // Reduced delay
+              repeat: Infinity,
+              ease: "easeInOut",
+              times: [0, 0.5, 1],
+            }}
+          >
+            <item.icon
+              className="w-12 h-12 text-purple-600/60 hover:text-purple-600/70 
               dark:text-purple-400/50 dark:hover:text-purple-400/60 
               filter blur-[0.2px] hover:blur-none transition-all duration-300
-              drop-shadow-lg dark:drop-shadow-[0_0_12px_rgba(168,85,247,0.3)]" 
-            strokeWidth={1.2}
-          />
-        </motion.div>
-      ))}
+              drop-shadow-lg dark:drop-shadow-[0_0_12px_rgba(168,85,247,0.3)]"
+              strokeWidth={1.2}
+            />
+          </motion.div>
+        ))}
 
       {/* Main Content */}
       <div className="relative z-10 text-center">
