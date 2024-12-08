@@ -1,0 +1,22 @@
+# Django and Django REST framework
+Django>=4.2.0
+djangorestframework>=3.14.0
+django-cors-headers>=4.1.0
+
+# For serving static files and handling production deployment
+whitenoise>=6.5.0
+
+# For environment variables management
+python-dotenv>=1.0.0
+
+# For API documentation (optional but recommended)
+drf-yasg>=1.21.0
+
+# For image handling
+Pillow>=10.0.0
+
+# For markdown support in blog content
+markdown>=3.5.1
+
+# For slug generation
+python-slugify>=8.0.1
