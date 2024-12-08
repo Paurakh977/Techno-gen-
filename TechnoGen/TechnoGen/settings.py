@@ -25,7 +25,7 @@ SECRET_KEY = 'your-secret-key'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '*']
 
 
 # Application definition
@@ -94,10 +94,11 @@ REST_FRAMEWORK = {
 # CORS settings
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
+    "http://127.0.0.1:3000",
     "http://192.168.0.101:3000",
 ]
 
-CORS_ALLOW_ALL_ORIGINS = True  # Only in development
+CORS_ALLOW_ALL_ORIGINS = True
 
 # Add CORS_ALLOWED_METHODS if you need specific HTTP methods
 CORS_ALLOWED_METHODS = [
