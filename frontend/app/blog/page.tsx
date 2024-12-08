@@ -18,11 +18,15 @@ export default function BlogPage() {
     fetch(endpoints.posts)
       .then((res) => res.json())
       .then((data) => {
-        setPosts(data);
+        setPosts(Array.isArray(data) ? data : []);
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        console.error('Failed to fetch posts:', error);
         setIsLoading(false);
       });
 
-    // Check localStorage on mount
+    // Dark mode check
     const darkMode = localStorage.getItem("darkMode") === "true";
     setIsDarkMode(darkMode);
     document.documentElement.classList.toggle("dark", darkMode);

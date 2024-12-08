@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { API_BASE_URL } from "../../../src/config/api";
+import { endpoints } from "../../../src/config/api";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import Navbar from "../../components/navbar";
@@ -15,7 +15,7 @@ export default function BlogPostPage({ params }: { params: { id: string } }) {
 
   useEffect(() => {
     // Fetch post data
-    fetch(`${API_BASE_URL}/posts/${params.id}/`)
+    fetch(`${endpoints.posts}${params.id}/`)
       .then((res) => res.json())
       .then((data) => {
         setPost(data);
