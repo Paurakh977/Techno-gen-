@@ -52,23 +52,6 @@ class BlogPostAdmin(admin.ModelAdmin):
             obj.id = slugify(obj.title)
         super().save_model(request, obj, form, change)
 
-    def get_urls(self):
-        urls = super().get_urls()
-        custom_urls = [
-            path('add-tag/', self.add_tag_view, name='add-tag'),
-        ]
-        return custom_urls + urls
-
-    @require_POST
-    def add_tag_view(self, request):
-        tag_name = request.POST.get('name')
-        tag, created = Tag.objects.get_or_create(name=tag_name)
-        return JsonResponse({
-            'id': tag.id,
-            'name': tag.name,
-            'created': created
-        })
-
     class Media:
         css = {
             'all': (
@@ -79,5 +62,4 @@ class BlogPostAdmin(admin.ModelAdmin):
         js = (
             'admin/js/jquery.init.js',
             'admin/js/SelectBox.js',
-            'js/tag-management.js',
         )
