@@ -1,0 +1,178 @@
+/* TechnoGen/static/css/ckeditor-custom.css */
+:root {
+    --ck-color-base-foreground: white;
+    --ck-color-base-background: white;
+    --ck-color-base-border: #ccced1;
+    --ck-color-text: black;
+    --ck-color-editor-base-text: black;
+}
+
+.ck.ck-editor__main > .ck-editor__editable:not(.ck-focused) {
+    border-color: var(--ck-color-base-border);
+    background: white;
+    color: black;
+}
+
+.ck.ck-editor__main > .ck-editor__editable.ck-focused {
+    border-color: var(--ck-color-base-border);
+    background: white !important;
+    color: black !important;
+}
+
+.ck.ck-editor__main > .ck-editor__editable {
+    background: white !important;
+    color: black !important;
+}
+
+.ck-editor__editable {
+    min-height: 300px !important;
+    background: white !important;
+    color: black !important;
+}
+
+.ck-content {
+    color: black !important;
+    background: white !important;
+}
+
+.ck.ck-editor__editable_inline {
+    color: black !important;
+    background: white !important;
+}
+
+/* Base editor styles */
+.django-ckeditor-5 {
+    color: black !important;
+}
+
+/* Editor content area */
+.ck-editor__editable {
+    background-color: white !important;
+    color: black !important;
+}
+
+.ck-editor__editable * {
+    color: black !important;
+}
+
+.ck-editor__editable h1,
+.ck-editor__editable h2,
+.ck-editor__editable h3,
+.ck-editor__editable h4,
+.ck-editor__editable h5,
+.ck-editor__editable h6,
+.ck-editor__editable p,
+.ck-editor__editable span {
+    color: black !important;
+}
+
+/* Focused state */
+.ck-editor__editable.ck-focused {
+    color: black !important;
+}
+
+/* Editor toolbar */
+.ck-toolbar {
+    background-color: #f8f9fa !important;
+    border-color: #dee2e6 !important;
+}
+
+/* Editor content text */
+.ck-content {
+    color: black !important;
+    background: white !important;
+}
+
+/* Make all text black, including headings */
+.ck-content * {
+    color: black !important;
+}
+
+.ck-content h1,
+.ck-content h2,
+.ck-content h3,
+.ck-content h4,
+.ck-content h5,
+.ck-content h6 {
+    color: black !important;
+}
+
+/* Override any other color settings */
+.ck-editor__editable [class*="heading"] {
+    color: black !important;
+}
+
+.ck-content img {
+    max-width: 100%;
+    height: auto;
+}
+
+.ck-content figure.image {
+    margin: 1em 0;
+}
+
+.ck-content figure.image.image-style-side {
+    float: right;
+    width: 50%;
+    margin-left: 1em;
+}
+
+.ck-content figure.image.image-style-inline {
+    float: left;
+    width: 50%;
+    margin-right: 1em;
+}
+
+.ck-content figure.image.image-style-block {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Image alignment styles */
+.ck-content .image {
+    margin: 1em 0;
+    max-width: 100%;
+}
+
+.ck-content .image.image-style-align-left {
+    float: left;
+    margin-right: 1em;
+    max-width: 50%;
+}
+
+.ck-content .image.image-style-align-right {
+    float: right;
+    margin-left: 1em;
+    max-width: 50%;
+}
+
+.ck-content .image.image-style-align-center {
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+}
+
+.ck-content .image img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* Preview styles for client side */
+.prose .image {
+    margin: 2em 0;
+    max-width: 100%;
+}
+
+.prose .image img {
+    border-radius: 0.5rem;
+    max-width: 100%;
+    height: auto;
+}
+
+/* Clear floats */
+.prose .image::after {
+    content: '';
+    display: table;
+    clear: both;
+}

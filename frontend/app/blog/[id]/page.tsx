@@ -111,9 +111,13 @@ export default function BlogPostPage({ params }: { params: { id: string } }) {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
-            className="prose prose-lg dark:prose-invert prose-headings:text-gray-900 dark:prose-headings:text-white/90 prose-p:text-gray-700 dark:prose-p:text-gray-300 prose-a:text-purple-600 dark:prose-a:text-purple-400 prose-strong:text-gray-900 dark:prose-strong:text-white/90"
-            dangerouslySetInnerHTML={{ __html: post.content }}
-          />
+            className="blog-content"
+          >
+            <div 
+              className="blog-content [&_.image-style-align-left]:float-left [&_.image-style-align-left]:mr-4 [&_.image-style-align-left]:max-w-[50%] [&_.image-style-align-right]:float-right [&_.image-style-align-right]:ml-4 [&_.image-style-align-right]:max-w-[50%] [&_.image-style-align-center]:mx-auto [&_.image-style-align-center]:block [&>figure>img]:rounded-lg [&>figure>img]:mx-auto [&>figure]:my-8"
+              dangerouslySetInnerHTML={{ __html: post.content }}
+            />
+          </motion.div>
         </motion.div>
       </div>
     </div>

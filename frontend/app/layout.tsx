@@ -20,7 +20,16 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={`${poppins.variable}`}>
-      <body className="font-poppins">{children}</body>
+      <body className={`font-poppins [&_.blog-content]:prose [&_.blog-content]:max-w-none 
+        [&_.blog-content_img]:rounded-lg [&_.blog-content_img]:max-w-full [&_.blog-content_img]:h-auto
+        [&_.blog-content_.image-style-align-left]:float-left [&_.blog-content_.image-style-align-left]:mr-4 [&_.blog-content_.image-style-align-left]:max-w-[50%]
+        [&_.blog-content_.image-style-align-right]:float-right [&_.blog-content_.image-style-align-right]:ml-4 [&_.blog-content_.image-style-align-right]:max-w-[50%]
+        [&_.blog-content_.image-style-align-center]:mx-auto [&_.blog-content_.image-style-align-center]:block
+        dark:[&_.blog-content]:prose-invert
+        [&_.blog-content_figure]:my-8 [&_.blog-content_figure]:mx-0
+        [&_.blog-content_figure_img]:rounded-lg [&_.blog-content_figure_img]:mx-auto`}>
+        {children}
+      </body>
     </html>
   );
 }

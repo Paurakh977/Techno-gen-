@@ -50,7 +50,7 @@ ENV/
 
 # Django static files
 staticfiles/
-static/
+
 
 # Coverage reports
 .coverage
