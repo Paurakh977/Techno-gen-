@@ -26,19 +26,25 @@ export default function BlogCard({ post, index }: BlogCardProps) {
           <div className="absolute inset-0 bg-gradient-to-br from-purple-600/20 to-blue-600/20 group-hover:opacity-90 transition-opacity z-10" />
           <div className="relative aspect-[16/9]">
             {imageLoading && (
-              <div className="absolute inset-0 bg-gray-200 dark:bg-gray-700 animate-pulse" />
+              <div className="absolute inset-0 flex items-center justify-center bg-gray-200 dark:bg-gray-700">
+                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-purple-500"></div>
+              </div>
             )}
             <Image
-              src={post.coverImage}
+              src={post.cover_image}
               alt={post.title}
               fill
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               className={`
                 object-cover transition-all duration-300
-                ${imageLoading ? 'scale-110 blur-lg opacity-0' : 'scale-100 blur-0 opacity-100'}
+                ${imageLoading ? 'scale-110 blur-lg' : 'scale-100 blur-0'}
                 ${!imageLoading && 'group-hover:scale-105'}
               `}
               onLoadingComplete={() => setImageLoading(false)}
+              onError={() => {
+                // Fallback image if loading fails
+                setImageLoading(false);
+              }}
               priority={index < 2}
             />
           </div>

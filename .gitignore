@@ -41,6 +41,30 @@ ENV/
 *.swp
 *.swo
 
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Django static files
+staticfiles/
+static/
+
+# Coverage reports
+.coverage
+htmlcov/
+
+# Temporary files
+*.bak
+*.tmp
+*~
+
+# System files
+.DS_Store
+Thumbs.db
+
 # Frontend (Next.js) - keeping frontend's own .gitignore
 frontend/node_modules/
 frontend/.next/

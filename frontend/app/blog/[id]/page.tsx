@@ -97,7 +97,7 @@ export default function BlogPostPage({ params }: { params: { id: string } }) {
                 <div className="flex items-center text-gray-500 dark:text-gray-400">
                   <span>{post.date}</span>
                   <span className="mx-2">•</span>
-                  <span>{post.readingTime}</span>
+                  <span>{post.reading_time}</span>
                 </div>
               </div>
             </div>
@@ -110,7 +110,7 @@ export default function BlogPostPage({ params }: { params: { id: string } }) {
             className="relative w-full h-[400px] mb-8 rounded-xl overflow-hidden group"
           >
             <Image
-              src={post.coverImage}
+              src={post.cover_image}
               alt={post.title}
               fill
               className="object-cover transition-transform duration-300 group-hover:scale-105"
