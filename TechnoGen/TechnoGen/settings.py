@@ -184,9 +184,18 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # CKEditor 5 Configuration
 CKEDITOR_5_CONFIGS = {
     'default': {
-        'toolbar': ['heading', '|', 'bold', 'italic', 'link',
-                   'bulletedList', 'numberedList', 'blockQuote', '|',
-                   'insertImage'],
+        'toolbar': [
+            'heading', '|', 'bold', 'italic', 'link', '|', 
+            'bulletedList', 'numberedList', 'blockQuote', '|', 
+            'insertImage', 'imageTextAlternative', '|', 
+            'imageStyle:alignLeft', 'imageStyle:alignCenter', 'imageStyle:alignRight'
+        ],
+        'image': {
+            'toolbar': [
+                'imageTextAlternative', '|',
+                'imageStyle:alignLeft', 'imageStyle:alignCenter', 'imageStyle:alignRight'
+            ]
+        },
         'height': '300px',
         'width': '100%',
     },
