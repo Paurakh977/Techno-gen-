@@ -35,7 +35,25 @@ class BlogPostAdmin(admin.ModelAdmin):
         })
     )
 
+    def formfield_for_manytomany(self, db_field, request, **kwargs):
+        if db_field.name == "tags":
+            kwargs["widget"] = admin.widgets.FilteredSelectMultiple(
+                "Tags",
+                is_stacked=False,
+                attrs={'class': 'tag-select'}
+            )
+        return super().formfield_for_manytomany(db_field, request, **kwargs)
+
     def save_model(self, request, obj, form, change):
-        if not obj.id:  # If creating new post
+        if not obj.id:
             obj.id = slugify(obj.title)
         super().save_model(request, obj, form, change)
+
+    class Media:
+        css = {
+            'all': (
+                'admin/css/widgets.css',
+                'css/ckeditor-custom.css',
+            )
+        }
+        js = ('admin/js/jquery.init.js', 'admin/js/SelectBox.js')

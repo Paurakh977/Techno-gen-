@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     # Third party apps
     'rest_framework',
     'corsheaders',
+    'django_ckeditor_5',
     
     # Local apps
     'blog',
@@ -66,7 +67,9 @@ ROOT_URLCONF = 'TechnoGen.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            BASE_DIR / 'blog' / 'templates',
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -165,8 +168,31 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATICFILES_DIRS = [
+    BASE_DIR / 'static',
+]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# CKEditor 5 Configuration
+CKEDITOR_5_CONFIGS = {
+    'default': {
+        'toolbar': ['heading', '|', 'bold', 'italic', 'link',
+                   'bulletedList', 'numberedList', 'blockQuote', 'imageUpload'],
+        'height': '300px',
+        'width': '100%',
+        'removePlugins': ['Title'],
+        'toolbar_Custom': [
+            'heading', '|', 'bold', 'italic', 'link',
+            'bulletedList', 'numberedList', 'blockQuote', 'imageUpload'
+        ],
+    },
+}
+
+# CKEditor 5 Upload settings
+CKEDITOR_5_UPLOAD_PATH = "uploads/"
+CKEDITOR_5_FILE_STORAGE = "django.core.files.storage.FileSystemStorage"

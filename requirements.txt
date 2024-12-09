@@ -22,3 +22,5 @@ markdown>=3.5.1
 python-slugify>=8.0.1
 
 mysqlclient
+
+django-ckeditor-5
