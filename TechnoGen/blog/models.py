@@ -18,10 +18,6 @@ class BlogPost(models.Model):
     tags = models.ManyToManyField(Tag)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    author_name = models.CharField(max_length=100, default="John Doe")
-    author_avatar = models.URLField(
-        default="https://api.dicebear.com/7.x/avataaars/svg?seed=John"
-    )
 
     def save(self, *args, **kwargs):
         if not self.id:

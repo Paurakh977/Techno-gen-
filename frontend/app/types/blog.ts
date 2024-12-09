@@ -7,8 +7,4 @@ export interface BlogPost {
   date: string;
   reading_time: string;
   tags: string[];
-  author: {
-    name: string;
-    avatar: string;
-  };
-} 
+}

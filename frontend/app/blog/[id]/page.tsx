@@ -82,23 +82,11 @@ export default function BlogPostPage({ params }: { params: { id: string } }) {
               {post.title}
             </h1>
 
-            <div className="flex items-center space-x-4 mb-8 p-4 rounded-xl bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm">
-              <Image
-                src={post.author.avatar}
-                alt={post.author.name}
-                width={48}
-                height={48}
-                className="rounded-full"
-              />
-              <div>
-                <p className="font-medium text-gray-900 dark:text-white/90">
-                  {post.author.name}
-                </p>
-                <div className="flex items-center text-gray-500 dark:text-gray-400">
-                  <span>{post.date}</span>
-                  <span className="mx-2">•</span>
-                  <span>{post.reading_time}</span>
-                </div>
+            <div className="flex items-center mb-8 p-4 rounded-xl bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm">
+              <div className="flex items-center text-gray-500 dark:text-gray-400">
+                <span>{post.date}</span>
+                <span className="mx-2">•</span>
+                <span>{post.reading_time}</span>
               </div>
             </div>
           </div>

@@ -70,26 +70,10 @@ export default function BlogCard({ post, index }: BlogCardProps) {
             {post.excerpt}
           </p>
           
-          <div className="flex items-center mt-4 space-x-4">
-            <div className="relative w-10 h-10">
-              <Image
-                src={post.author.avatar}
-                alt={post.author.name}
-                fill
-                className="rounded-full"
-                sizes="40px"
-              />
-            </div>
-            <div>
-              <p className="text-sm font-medium text-gray-900 dark:text-white/90">
-                {post.author.name}
-              </p>
-              <div className="flex items-center text-sm text-gray-500 dark:text-gray-400">
-                <span>{post.date}</span>
-                <span className="mx-2">•</span>
-                <span>{post.readingTime}</span>
-              </div>
-            </div>
+          <div className="flex items-center mt-4 text-sm text-gray-500 dark:text-gray-400">
+            <span>{post.date}</span>
+            <span className="mx-2">•</span>
+            <span>{post.reading_time}</span>
           </div>
         </div>
       </Link>
