@@ -89,6 +89,9 @@ WSGI_APPLICATION = 'TechnoGen.wsgi.application'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
+# Site URL Configuration
+SITE_URL = os.getenv('SITE_URL', 'http://localhost:8000')
+
 # REST Framework settings
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
@@ -186,13 +189,34 @@ CKEDITOR_5_CONFIGS = {
         'height': '300px',
         'width': '100%',
         'removePlugins': ['Title'],
-        'toolbar_Custom': [
-            'heading', '|', 'bold', 'italic', 'link',
-            'bulletedList', 'numberedList', 'blockQuote', 'imageUpload'
-        ],
+        'image': {
+            'toolbar': ['imageTextAlternative', '|', 'imageStyle:alignLeft', 'imageStyle:full', 'imageStyle:alignRight'],
+            'styles': [
+                'full',
+                'alignLeft',
+                'alignRight',
+            ],
+            'upload': {
+                'types': ['jpeg', 'png', 'gif', 'bmp', 'webp', 'tiff', 'svg+xml'],
+                'saveAsType': 'jpeg',
+            },
+        },
     },
 }
 
 # CKEditor 5 Upload settings
 CKEDITOR_5_UPLOAD_PATH = "uploads/"
 CKEDITOR_5_FILE_STORAGE = "django.core.files.storage.FileSystemStorage"
+CKEDITOR_5_UPLOAD_FILE_PATTERN = "ckeditor5/%Y/%m/%d"
+
+# Make sure media files are served in development
+if DEBUG:
+    MIDDLEWARE += [
+        'whitenoise.middleware.WhiteNoiseMiddleware',
+    ]
+
+# AWS S3 Configuration
+if not DEBUG:  # Use S3 in production
+    AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
+    AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
+    AWS_STORAGE_BUCKET_NAME = os.getenv('AWS_STORAGE_BUCKET_NAME')

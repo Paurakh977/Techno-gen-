@@ -13,10 +13,10 @@ def post_list(request):
         posts = BlogPost.objects.all().order_by('-date')
         serializer = BlogPostSerializer(posts, many=True)
         return Response(serializer.data)
-    except DatabaseError:
+    except Exception as e:
         return Response(
-            {"error": "Database connection error"},
-            status=status.HTTP_503_SERVICE_UNAVAILABLE
+            {"error": str(e)},
+            status=status.HTTP_500_INTERNAL_SERVER_ERROR
         )
 
 @api_view(['GET'])

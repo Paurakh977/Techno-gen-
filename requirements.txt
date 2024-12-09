@@ -13,7 +13,7 @@ python-dotenv>=1.0.0
 drf-yasg>=1.21.0
 
 # For image handling
-Pillow>=10.0.0
+Pillow>=10.1.0
 
 # For markdown support in blog content
 markdown>=3.5.1
@@ -24,3 +24,7 @@ python-slugify>=8.0.1
 mysqlclient
 
 django-ckeditor-5
+
+django-storages
+
+boto3
