@@ -89,7 +89,7 @@ html {
   }
 
   body {
-    @apply antialiased;
+    @apply antialiased transition-colors duration-200;
   }
 }
 
@@ -110,6 +110,10 @@ html {
 @layer utilities {
   .text-gradient {
     @apply bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary;
+  }
+
+  .backdrop-blur-sm {
+    backdrop-filter: blur(8px);
   }
 }
 

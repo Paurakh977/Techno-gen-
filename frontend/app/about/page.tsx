@@ -2,9 +2,11 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Button } from "../components/button";
 import { ArrowRight, Code2, Brain, Rocket, Users } from "lucide-react";
+import Navbar from "../components/navbar";
 
 interface TeamMember {
   id: number;
@@ -61,8 +63,28 @@ const stats = [
 ];
 
 export default function AboutPage() {
+  const [isDarkMode, setIsDarkMode] = useState(false);
+
+  useEffect(() => {
+    // Check localStorage on mount
+    const darkMode = localStorage.getItem('darkMode') === 'true';
+    setIsDarkMode(darkMode);
+    if (darkMode) {
+      document.documentElement.classList.add('dark');
+    }
+  }, []);
+
+  const toggleDarkMode = () => {
+    setIsDarkMode(!isDarkMode);
+    document.documentElement.classList.toggle('dark');
+  };
+
   return (
+    <>
+      <Navbar isDarkMode={isDarkMode} toggleDarkMode={toggleDarkMode} />
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50 dark:from-gray-900 dark:to-blue-900">
+        {/* Add padding-top to account for fixed navbar */}
+        <div className="pt-16">
       {/* Hero Section */}
       <section className="relative pt-20 pb-16 md:pt-32 md:pb-24">
         <div className="container mx-auto px-4">
@@ -106,7 +128,7 @@ export default function AboutPage() {
                 width={800}
                 height={600}
                 alt="Team collaboration"
-                className="relative rounded-2xl shadow-2xl"
+                className="relative rounded-2xl shadow-2xl dark:shadow-purple-500/10"
               />
               <div className="absolute -bottom-8 -right-8 w-48 h-48 bg-blue-200 dark:bg-blue-900/20 rounded-full blur-3xl" />
             </motion.div>
@@ -168,8 +190,8 @@ export default function AboutPage() {
                 transition={{ duration: 0.6, delay: 0.2 }}
                 className="relative group"
               >
-                <div className="absolute inset-0 bg-gradient-to-r from-purple-500/10 to-blue-500/10 rounded-2xl transform group-hover:scale-105 transition-transform duration-300" />
-                <div className="relative bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-lg">
+                <div className="absolute inset-0 bg-gradient-to-r from-purple-500/10 to-blue-500/10 dark:from-purple-500/5 dark:to-blue-500/5 rounded-2xl transform group-hover:scale-105 transition-transform duration-300" />
+                <div className="relative bg-white dark:bg-gray-800/50 p-8 rounded-2xl shadow-lg backdrop-blur-sm">
                   <Code2 className="w-12 h-12 text-purple-600 dark:text-purple-400 mb-6" />
                   <h3 className="text-2xl font-bold mb-4">
                     Custom Development
@@ -178,7 +200,10 @@ export default function AboutPage() {
                     Building tailored solutions that perfectly align with your
                     business needs, from web applications to enterprise systems.
                   </p>
-                  <Button variant="ghost" className="group">
+                  <Button 
+                    variant="ghost" 
+                    className="group hover:bg-purple-50 dark:hover:bg-gray-700/50"
+                  >
                     Learn More
                     <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
                   </Button>
@@ -191,15 +216,18 @@ export default function AboutPage() {
                 transition={{ duration: 0.6, delay: 0.3 }}
                 className="relative group"
               >
-                <div className="absolute inset-0 bg-gradient-to-r from-purple-500/10 to-blue-500/10 rounded-2xl transform group-hover:scale-105 transition-transform duration-300" />
-                <div className="relative bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-lg">
+                <div className="absolute inset-0 bg-gradient-to-r from-purple-500/10 to-blue-500/10 dark:from-purple-500/5 dark:to-blue-500/5 rounded-2xl transform group-hover:scale-105 transition-transform duration-300" />
+                <div className="relative bg-white dark:bg-gray-800/50 p-8 rounded-2xl shadow-lg backdrop-blur-sm">
                   <Brain className="w-12 h-12 text-purple-600 dark:text-purple-400 mb-6" />
                   <h3 className="text-2xl font-bold mb-4">AI Solutions</h3>
                   <p className="text-gray-600 dark:text-gray-300 mb-6">
                     Leveraging artificial intelligence and machine learning to
                     create intelligent systems that drive business growth.
                   </p>
-                  <Button variant="ghost" className="group">
+                  <Button 
+                    variant="ghost" 
+                    className="group hover:bg-purple-50 dark:hover:bg-gray-700/50"
+                  >
                     Learn More
                     <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
                   </Button>
@@ -246,7 +274,7 @@ export default function AboutPage() {
                 width={800}
                 height={600}
                 alt="Future of technology"
-                className="relative rounded-2xl shadow-2xl"
+                className="relative rounded-2xl shadow-2xl dark:shadow-purple-500/10"
               />
               <div className="absolute -bottom-8 -left-8 w-48 h-48 bg-blue-200 dark:bg-blue-900/20 rounded-full blur-3xl" />
             </motion.div>
@@ -286,8 +314,8 @@ export default function AboutPage() {
                           className="object-cover w-full aspect-[3/4] rounded-lg"
                         />
                       </div>
-                      <div className="space-y-4">
-                        <h3 className="text-2xl font-light tracking-wide uppercase">
+                      <div className="space-y-4 bg-white/80 dark:bg-gray-800/50 p-8 rounded-2xl backdrop-blur-sm">
+                        <h3 className="text-2xl font-light tracking-wide uppercase text-gray-900 dark:text-white">
                           {member.name}
                         </h3>
                         <p className="text-sm text-purple-600 dark:text-purple-400 uppercase tracking-wider">
@@ -306,8 +334,8 @@ export default function AboutPage() {
                     </>
                   ) : (
                     <>
-                      <div className="space-y-4">
-                        <h3 className="text-2xl font-light tracking-wide uppercase">
+                      <div className="space-y-4 bg-white/80 dark:bg-gray-800/50 p-8 rounded-2xl backdrop-blur-sm">
+                        <h3 className="text-2xl font-light tracking-wide uppercase text-gray-900 dark:text-white">
                           {member.name}
                         </h3>
                         <p className="text-sm text-purple-600 dark:text-purple-400 uppercase tracking-wider">
@@ -341,5 +369,7 @@ export default function AboutPage() {
         </div>
       </section>
     </div>
+      </div>
+    </>
   );
 }
