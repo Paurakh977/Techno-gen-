@@ -9,9 +9,27 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        primary: '#8352FD',
-        'primary-light': '#A47FFF',
-        secondary: '#3B82F6',
+        border: "hsl(var(--border))",
+        input: "hsl(var(--input))",
+        ring: "hsl(var(--ring))",
+        background: "hsl(var(--background))",
+        foreground: "hsl(var(--foreground))",
+        primary: {
+          DEFAULT: "rgb(var(--primary-color))",
+          foreground: "hsl(var(--primary-foreground))",
+        },
+        secondary: {
+          DEFAULT: "rgb(var(--secondary-color))",
+          foreground: "hsl(var(--secondary-foreground))",
+        },
+        destructive: {
+          DEFAULT: "hsl(var(--destructive))",
+          foreground: "hsl(var(--destructive-foreground))",
+        },
+        accent: {
+          DEFAULT: "hsl(var(--accent))",
+          foreground: "hsl(var(--accent-foreground))",
+        },
       },
       fontFamily: {
         poppins: ['var(--font-poppins)', 'sans-serif'],
